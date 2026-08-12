@@ -7,7 +7,8 @@
 
 // import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import LoginScreen from './src/screens/login/LoginScreen';
+// import LoginScreen from './src/screens/login/LoginScreen';
+import PatientsList from './src/screens/patientsList/PatientsList';
 
 function App() {
   // const isDarkMode = useColorScheme() === 'dark';
@@ -15,7 +16,8 @@ function App() {
   return (
     <SafeAreaProvider>
       {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
-      <LoginScreen />
+      {/* <LoginScreen /> */}
+      <PatientsList />
     </SafeAreaProvider>
   );
 }
