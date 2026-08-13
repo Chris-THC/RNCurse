@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
-import { getPatients, Patient } from '../../api/patientService';
+import { getPatients, Patient } from '../../api/service';
 import { Pagination } from './Pagination';
 import { PatientRow } from './PatientRow';
 import { TableControls } from './TableControls';

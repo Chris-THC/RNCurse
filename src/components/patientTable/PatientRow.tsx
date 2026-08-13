@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Patient } from '../../api/patientService';
+import { Patient } from '../../api/service';
 interface PatientRowProps {
   patient: Patient;
   onView?: (patient: Patient) => void;
