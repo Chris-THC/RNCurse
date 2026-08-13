@@ -1,31 +1,20 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Patient } from '../../api/patientService';
-
 interface PatientRowProps {
   patient: Patient;
-  isOpen: boolean; 
-  onToggle: () => void; 
   onView?: (patient: Patient) => void;
   onEdit?: (patient: Patient) => void;
   onDelete?: (patient: Patient) => void;
 }
 
-export const PatientRow = ({ patient, isOpen, onToggle, onView, onEdit, onDelete }: PatientRowProps) => {
-
-  const handleAction = (action: 'view' | 'edit' | 'delete') => {
-    onToggle(); // Le decimos al Jefe que cierre el menú al seleccionar una opción
-    if (action === 'view' && onView) onView(patient);
-    if (action === 'edit' && onEdit) onEdit(patient);
-    if (action === 'delete' && onDelete) onDelete(patient);
-  };
-
+export const PatientRow = ({ patient, onView, onEdit, onDelete}: PatientRowProps) => {
   return (
-    // Si este menú es el que está abierto, elevamos su zIndex
-    <View style={[styles.row, isOpen && { zIndex: 999, elevation: 999 }]}>
-      
+    <View style={styles.row}>
+      {/* Folio */}
       <Text style={[styles.cell, styles.colFolio]}>{patient.idPaciente}</Text>
 
+      {/* Nombre */}
       <View style={[styles.cell, styles.colNombre, styles.nameContainer]}>
         <Image source={{ uri: patient.fotoPerfil }} style={styles.avatar} />
         <Text style={styles.cellText} numberOfLines={1}>
@@ -33,131 +22,97 @@ export const PatientRow = ({ patient, isOpen, onToggle, onView, onEdit, onDelete
         </Text>
       </View>
 
+      {/* Acciones */}
       <View style={[styles.cell, styles.colAcciones, styles.actionsContainer]}>
-        
-        {/* Botón de los 3 puntos: Llama a onToggle en vez de toggleMenu */}
-        <TouchableOpacity 
-          style={[styles.actionBtn, styles.btnView]} 
-          onPress={onToggle}
-        >
-          <Text style={styles.btnText}>...</Text>
+        {/* Ver */}
+        <TouchableOpacity style={[styles.actionBtn, styles.btnView]} onPress={() => onView?.(patient)} activeOpacity={0.7}>
+          <Image source={require('../../../assets/icons/eye.png')} style={styles.actionIcon}/>
         </TouchableOpacity>
 
-        {/* MENÚ FLOTANTE: Ahora depende de "isOpen" */}
-        {isOpen && (
-          <View style={styles.floatingMenu}>
-            <TouchableOpacity style={styles.menuItem} onPress={() => handleAction('view')}>
-              <Text style={styles.menuItemText}>Ver Perfil</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem} onPress={() => handleAction('edit')}>
-              <Text style={styles.menuItemText}>Editar</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={[styles.menuItem, styles.menuItemDelete]} onPress={() => handleAction('delete')}>
-              <Text style={styles.menuItemTextDelete}>Eliminar</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+        {/* Editar */}
+        <TouchableOpacity style={[styles.actionBtn, styles.btnEdit]} onPress={() => onEdit?.(patient)} activeOpacity={0.7}>
+          <Image source={require('../../../assets/icons/pencil.png')} style={styles.actionIcon}/>
+        </TouchableOpacity>
 
+        {/* Eliminar */}
+        <TouchableOpacity style={[styles.actionBtn, styles.btnDelete]} onPress={() => onDelete?.(patient)} activeOpacity={0.7}>
+          <Image source={require('../../../assets/icons/trash.png')} style={styles.actionIcon}/>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    paddingVertical: 12,
     alignItems: 'center',
-    backgroundColor: '#FFF', // Opcional: Ayuda a que el zIndex se comporte mejor
+    minHeight: 58,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    backgroundColor: '#FFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
   },
   cell: {
     justifyContent: 'flex-start',
-  },
-  cellText: {
-    fontSize: 14,
-    color: '#2e2e2e',
-    flexShrink: 1,
   },
   nameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   avatar: {
-    width: 38,
-    height: 38,
-    borderRadius: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     marginRight: 8,
     backgroundColor: '#E0E0E0',
   },
+  cellText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#2E2E2E',
+  },
+  // Acciones
   actionsContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end', // Alineado a la derecha para que el menú no se salga de la pantalla
-    position: 'relative', // Necesario para que el menú flotante se posicione respecto a este contenedor
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 3,
   },
   actionBtn: {
-    width: 28,
-    height: 28,
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // justcontent: 'flex-center',
-  },
-  btnView: {
-    backgroundColor: '#E8F5E9',
     width: 30,
     height: 30,
+    borderRadius: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  btnText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    paddingBottom: 5,
+  actionIcon: {
+    width: 16,
+    height: 16,
+    resizeMode: 'contain',
   },
+  btnView: {
+    backgroundColor: '#04ad13',
+  },
+  btnEdit: {
+    backgroundColor: '#229df4',
+  },
+  btnDelete: {
+    backgroundColor: '#ff1c3e',
+  },
+  //  Columnas
   colFolio: {
-    width: 45,
+    width: 30,
+    fontSize: 13,
+    color: '#555',
   },
   colNombre: {
     flex: 1,
+    minWidth: 0,
     paddingRight: 8,
   },
   colAcciones: {
-    width: 50, // Ajustado para darle espacio al botón
-    alignItems: 'flex-end',
-  },
-
-  // --- ESTILOS DEL MENÚ FLOTANTE ---
-  floatingMenu: {
-    position: 'absolute',
-    top: 32, // Aparece justo debajo del botón
-    right: 0, // Alineado a la derecha
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    paddingVertical: 4,
-    minWidth: 100,
-    // Sombras
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    zIndex: 1000,
-  },
-  menuItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-  },
-  menuItemText: {
-    fontSize: 14,
-    color: '#333333',
-  },
-  menuItemDelete: {
-    borderTopWidth: 1,
-    borderTopColor: '#F0F0F0',
-  },
-  menuItemTextDelete: {
-    fontSize: 14,
-    color: '#D32F2F', // Texto rojo para acción destructiva
+    width: 100,
   },
 });

@@ -17,9 +17,6 @@ export const PatientsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  //menu floating state
-  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -85,26 +82,19 @@ export const PatientsTable = () => {
           <FlatList
             data={paginatedData}
             keyExtractor={item => item.idPaciente.toString()}
-            // Cierra el menú al hacer scroll por la pantalla
-            onScroll={() => setOpenMenuId(null)}
-            scrollEventThrottle={16}
             renderItem={({ item }) => (
-              <PatientRow 
-                patient={item} 
-                // Indica el item que está abierto, comparando su ID con el estado global
-                isOpen={openMenuId === item.idPaciente}
-                onToggle={() => {
-                  // Cambia el estado global para abrir/cerrar el menú del item actual
-                  setOpenMenuId(openMenuId === item.idPaciente ? null : item.idPaciente);
-                }}
-                onView={(p) => console.log('Ver', p.idPaciente)}
-                onEdit={(p) => console.log('Editar', p.idPaciente)}
-                onDelete={(p) => console.log('Eliminar', p.idPaciente)}
+              <PatientRow
+                patient={item}
+                onView={p => console.log('Ver', p.idPaciente)}
+                onEdit={p => console.log('Editar', p.idPaciente)}
+                onDelete={p => console.log('Eliminar', p.idPaciente)}
               />
             )}
             ItemSeparatorComponent={Separator}
             showsVerticalScrollIndicator={false}
-            ListEmptyComponent={<Text style={styles.emptyText}>No se encontraron pacientes.</Text>}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>No se encontraron pacientes.</Text>
+            }
           />
         </View>
 
