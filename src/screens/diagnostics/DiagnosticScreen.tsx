@@ -15,6 +15,7 @@ const DiagnosticScreen = () => {
   const fetchData = async () => {
     try {
       const data = await getDiagnostics();
+      console.log('Fetched diagnostics:', data);
       setDiagnostics(data);
     } catch (error) {
       console.log('Something went wrong while fetching diagnosticos:', error);
@@ -28,7 +29,9 @@ const DiagnosticScreen = () => {
     Alert.alert('Opciones', 'Selecciona una acción', [
       {
         text: 'Editar',
-        onPress: () => console.log('Editar', diagnostico),
+        onPress: () =>{
+           console.log('Editar', diagnostico.nombreDiagnostico)
+        },
       },
       {
         text: 'Eliminar',

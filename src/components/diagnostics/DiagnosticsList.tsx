@@ -23,7 +23,7 @@ const DiagnosticsList: React.FC<DiagnosticsListProps> = ({ diagnostics, loading,
     <FlatList
       data={diagnostics}
       keyExtractor={(item) => item.idDiagnostico.toString()}
-      renderItem={({ item }) => <Card item={item} onOpenMenu={onOpenMenu} />}
+      renderItem={({ item }) => <Card diagnostico={item} onOpenMenu={onOpenMenu} />}
       contentContainerStyle={styles.container}
       ListEmptyComponent={
         <Text style={styles.emptyText}>No hay diagnósticos disponibles.</Text>

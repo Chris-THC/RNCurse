@@ -7,45 +7,45 @@ const infoIcon = require('../../../assets/icons/information.png');
 const heartIcon = require('../../../assets/icons/heart.png');
 
 interface CardProps {
-  item: Diagnostic;
+  diagnostico: Diagnostic;
   onOpenMenu: (diagnostico: Diagnostic) => void;
 }
 
-const Card: React.FC<CardProps> = ({ item, onOpenMenu }) => {
+const Card: React.FC<CardProps> = ({ diagnostico, onOpenMenu }) => {
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: item.imagen }}
+          source={{ uri: diagnostico.imagen }}
           style={styles.image}
           resizeMode="cover"
         />
       </View>
 
       <View style={styles.cardBody}>
-        <Text style={styles.title}>{item.nombreDiagnostico}</Text>
-        <Text style={styles.description}>{item.descripcion}</Text>
+        <Text style={styles.title}>{diagnostico.nombreDiagnostico}</Text>
+        <Text style={styles.description}>{diagnostico.descripcion}</Text>
 
         <View style={styles.list}>
           <View style={styles.listItem}>
              <Image style={styles.iconPlaceholder} source={noteIcon} />
-            <Text style={styles.listItemText}>Categoría: {item.categoria}</Text>
+            <Text style={styles.listItemText}>Categoría: {diagnostico.categoria}</Text>
           </View>
           <View style={styles.listItem}>
             <Image style={styles.iconPlaceholder} source={infoIcon} />
-            <Text style={styles.listItemText}>Tipo: {item.tipo}</Text>
+            <Text style={styles.listItemText}>Tipo: {diagnostico.tipo}</Text>
           </View>
           <View style={styles.listItem}>
             <Image style={styles.iconPlaceholder} source={heartIcon} />
             <Text style={styles.listItemText}>
-              Es crónico: {item.esCronicoCadena}
+              Es crónico: {diagnostico.esCronicoCadena}
             </Text>
           </View>
         </View>
 
         <TouchableOpacity
           style={styles.menuButton}
-          onPress={() => onOpenMenu(item)}
+          onPress={() => onOpenMenu(diagnostico)}
           activeOpacity={0.8}
         >
           <Text style={styles.menuDots}>⋮</Text>
