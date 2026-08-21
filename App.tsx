@@ -7,7 +7,7 @@
 
 // import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import DiagnosticScreen from './src/screens/diagnostics/DiagnosticScreen';
+import RouterComponent from './src/router/Router';
 // import LoginScreen from './src/screens/login/LoginScreen';
 // import PatientsList from './src/screens/patientsList/PatientsList';
 
@@ -19,7 +19,9 @@ function App() {
       {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
       {/* <LoginScreen /> */}
       {/* <PatientsList /> */}
-      <DiagnosticScreen />
+      {/* <DiagnosticScreen /> */}
+
+      <RouterComponent />
     </SafeAreaProvider>
   );
 }
